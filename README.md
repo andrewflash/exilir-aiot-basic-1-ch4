@@ -1,5 +1,7 @@
 # Hands-on: dari IMU ke penghitung langkah
 
+**Tambahan pengumpulan data nirkabel:** tersedia sketch **Exilir_SoftAP_Logger/Exilir_SoftAP_Logger.ino** dan panduan **Exilir_SoftAP_Logger/README.md**. Versi ini membuat Wi-Fi sendiri, menerima Start/Stop dari HP, dan menyediakan download CSV. Paket `../Exilir_SoftAP_Logger.zip` berisi sketch serta halaman web. Penjelasan USB di bawah tetap berlaku untuk sketch `Exilir_IMU_Logger`; bonus MQTT adalah jalur pengembangan terpisah.
+
 Target 45–60 menit, kelompok dua orang. Hasil: CSV mentah enam kanal, metadata, CSV aktivitas tiga kanal, grafik, serta evaluasi hitungan. Dasar kode: `../../../Chapter_3/Baca_IMU_Library/Baca_IMU_Library.ino`; sketch lama tidak diubah.
 
 ## 1. Siapkan board
