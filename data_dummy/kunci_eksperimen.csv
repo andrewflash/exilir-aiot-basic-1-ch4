@@ -1,0 +1,25 @@
+scenario,configuration,high,min_interval_s,reference,predicted,error_percent,false_steps_per_minute,status
+01_diam,default,1.2,0.3,0,0,,0,OK
+01_diam,threshold_rendah,0.6,0.3,0,0,,0,OK
+01_diam,jeda_500ms,1.2,0.5,0,0,,0,OK
+02_langkah_teratur,default,1.2,0.3,40,40,0.0,,OK
+02_langkah_teratur,threshold_rendah,0.6,0.3,40,40,0.0,,OK
+02_langkah_teratur,jeda_500ms,1.2,0.5,40,40,0.0,,OK
+03_langkah_pelan_lemah,default,1.2,0.3,24,0,100.0,,OK
+03_langkah_pelan_lemah,threshold_rendah,0.6,0.3,24,24,0.0,,OK
+03_langkah_pelan_lemah,jeda_500ms,1.2,0.5,24,0,100.0,,OK
+04_langkah_cepat,default,1.2,0.3,60,60,0.0,,OK
+04_langkah_cepat,threshold_rendah,0.6,0.3,60,60,0.0,,OK
+04_langkah_cepat,jeda_500ms,1.2,0.5,60,30,50.0,,OK
+05_goyangan_bukan_langkah,default,1.2,0.3,0,40,,120,OK
+05_goyangan_bukan_langkah,threshold_rendah,0.6,0.3,0,40,,120,OK
+05_goyangan_bukan_langkah,jeda_500ms,1.2,0.5,0,40,,120,OK
+06_sensor_miring,default,1.2,0.3,40,40,0.0,,OK
+06_sensor_miring,threshold_rendah,0.6,0.3,40,40,0.0,,OK
+06_sensor_miring,jeda_500ms,1.2,0.5,40,40,0.0,,OK
+07_amplitudo_berubah,default,1.2,0.3,40,20,50.0,,OK
+07_amplitudo_berubah,threshold_rendah,0.6,0.3,40,40,0.0,,OK
+07_amplitudo_berubah,jeda_500ms,1.2,0.5,40,20,50.0,,OK
+08_sampel_hilang,default,1.2,0.3,40,,,,Intervals outside 18–22ms; inspect timing before analysis
+08_sampel_hilang,threshold_rendah,0.6,0.3,40,,,,Intervals outside 18–22ms; inspect timing before analysis
+08_sampel_hilang,jeda_500ms,1.2,0.5,40,,,,Intervals outside 18–22ms; inspect timing before analysis

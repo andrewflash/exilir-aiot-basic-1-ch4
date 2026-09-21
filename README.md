@@ -1,8 +1,12 @@
 # Hands-on: dari IMU ke penghitung langkah
 
+**Latihan tanpa kit:** tersedia [8 skenario data sintetis](data_dummy/README.md), CSV kompatibel logger, grafik PNG, referensi langkah, dan kunci eksperimen threshold. Paket: `../Data_Dummy_Langkah_Exilir.zip`. Mulai dari `data_dummy/02_langkah_teratur.csv`; semua data ditandai sintetis dan bukan benchmark manusia.
+
+**Counting langsung di perangkat:** buka [praktik Arduino threshold](Exilir_Step_Counter/README.md). Tersedia sketch Serial sederhana, counter terintegrasi SoftAP, dan `Hands_On_Counting_Arduino.pptx` (slide 48?50 dalam deck v9).
+
 **Tambahan pengumpulan data nirkabel:** tersedia sketch **Exilir_SoftAP_Logger/Exilir_SoftAP_Logger.ino** dan panduan **Exilir_SoftAP_Logger/README.md**. Versi ini membuat Wi-Fi sendiri, menerima Start/Stop dari HP, dan menyediakan download CSV. Paket `../Exilir_SoftAP_Logger.zip` berisi sketch serta halaman web. Penjelasan USB di bawah tetap berlaku untuk sketch `Exilir_IMU_Logger`; bonus MQTT adalah jalur pengembangan terpisah.
 
-Target 45–60 menit, kelompok dua orang. Hasil: CSV mentah enam kanal, metadata, CSV aktivitas tiga kanal, grafik, serta evaluasi hitungan. Dasar kode: `../../../Chapter_3/Baca_IMU_Library/Baca_IMU_Library.ino`; sketch lama tidak diubah.
+Target 45–60 menit, kelompok dua orang. Hasil: CSV mentah enam kanal, metadata, CSV aktivitas tiga kanal, grafik, serta evaluasi hitungan. Dasar kode: `Chapter_3/Baca_IMU_Library/Baca_IMU_Library.ino`; sketch lama tidak diubah.
 
 ## 1. Siapkan board
 
@@ -62,7 +66,7 @@ Untuk `standing` atau `shaking_without_walking`, pakai `--reference 0`: hasil be
 
 ## 6. Bonus nirkabel: mengembangkan Chapter 2
 
-Gunakan `../../../Chapter_2/MQTT_Example/MQTT_Example.ino` sebagai referensi koneksi Wi-Fi/MQTT, bukan langsung sebagai logger IMU. Rancangan latihan: sampling → ring buffer → batch 25 sampel → topic unik per perangkat/sesi → subscriber laptop → CSV dengan header yang sama. Sertakan sequence dan timestamp sensor; deteksi kehilangan/duplikasi. Jaringan harus berada di luar jalur sampling. Setelah boot tanpa Serial dan logger penerima berhasil, barulah lepas USB laptop dan gunakan power bank. Bonus ini berupa rancangan tugas, **belum firmware Wi-Fi siap pakai**.
+Gunakan `Chapter_2/MQTT_Example/MQTT_Example.ino` sebagai referensi koneksi Wi-Fi/MQTT, bukan langsung sebagai logger IMU. Rancangan latihan: sampling → ring buffer → batch 25 sampel → topic unik per perangkat/sesi → subscriber laptop → CSV dengan header yang sama. Sertakan sequence dan timestamp sensor; deteksi kehilangan/duplikasi. Jaringan harus berada di luar jalur sampling. Setelah boot tanpa Serial dan logger penerima berhasil, barulah lepas USB laptop dan gunakan power bank. Bonus ini berupa rancangan tugas, **belum firmware Wi-Fi siap pakai**.
 
 ## Verifikasi
 

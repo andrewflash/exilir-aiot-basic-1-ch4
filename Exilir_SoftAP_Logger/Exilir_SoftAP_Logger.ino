@@ -11,12 +11,14 @@
 #include <Adafruit_Sensor.h>
 #include <math.h>
 #include "web_page.h"
+#include "StepDetector.h"
 
 constexpr uint32_t PERIOD_US=20000, MAX_SAMPLES=1500;
 const char* AP_PASSWORD="exilir12345"; // password for classroom SoftAP
 struct Sample { uint32_t us; float ax,ay,az,gx,gy,gz; };
 Sample dataBuffer[MAX_SAMPLES]; // 42,000 bytes, one recording only
 Adafruit_MPU6050 mpu;
+StepDetector detector;
 WebServer server(80);
 SemaphoreHandle_t guard;
 bool sensorReady=false, samplerReady=false, recording=false;
@@ -47,6 +49,7 @@ void sampler(void*) {
           uint32_t t=now-startedUs;
           if (sampleCount) maxIntervalUs=max(maxIntervalUs,t-dataBuffer[sampleCount-1].us);
           dataBuffer[sampleCount++]={t,a.acceleration.x,a.acceleration.y,a.acceleration.z,g.gyro.x,g.gyro.y,g.gyro.z};
+          detector.update(t/1000,a.acceleration.x,a.acceleration.y,a.acceleration.z);
           if (sampleCount==MAX_SAMPLES) {recording=false;finishedMs=t/1000;reason="buffer_full";}
         }
       }
@@ -57,13 +60,19 @@ void sampler(void*) {
 }
 
 String statusJson() {
-  char out[600];
+  char out[1000];
   xSemaphoreTake(guard,portMAX_DELAY);
   uint32_t elapsed=recording?(sampleCount?(micros()-startedUs)/1000:0):finishedMs;
   float fs=sampleCount>1&&dataBuffer[sampleCount-1].us?1000000.0f*(sampleCount-1)/dataBuffer[sampleCount-1].us:0;
   snprintf(out,sizeof(out),"{\"sensor_ready\":%s,\"sampler_ready\":%s,\"recording\":%s,\"samples\":%lu,\"elapsed_ms\":%lu,\"limit_ms\":%lu,\"target_hz\":50,\"actual_hz\":%.3f,\"max_interval_ms\":%.3f,\"missed_slots\":%lu,\"reason\":\"%s\",\"label\":\"%s\",\"baseline_ms\":3000,\"acceleration_unit\":\"m/s2\",\"gyro_unit\":\"rad/s\",\"timestamp_unit\":\"ms\"}",
     sensorReady?"true":"false",samplerReady?"true":"false",recording?"true":"false",(unsigned long)sampleCount,(unsigned long)elapsed,(unsigned long)limitMs,fs,maxIntervalUs/1000.0,(unsigned long)missedSlots,reason,label);
-  xSemaphoreGive(guard);return String(out);
+  // Append counter diagnostics to both live status and downloaded metadata.
+  String result(out);result.remove(result.length()-1);
+  char counter[400];
+  snprintf(counter,sizeof(counter),",\"steps\":%lu,\"detector_ready\":%s,\"calibration_failed\":%s,\"baseline_m_s2\":%.4f,\"filtered_m_s2\":%.4f,\"high_m_s2\":%.2f,\"low_m_s2\":%.2f,\"min_interval_ms\":%lu,\"detector_gaps\":%lu}",
+    (unsigned long)detector.count,detector.ready?"true":"false",detector.calibrationFailed?"true":"false",detector.baseline,detector.filtered,StepDetector::THRESHOLD_HIGH,StepDetector::THRESHOLD_LOW,(unsigned long)StepDetector::MIN_INTERVAL_MS,(unsigned long)detector.gaps);
+  result+=counter;
+  xSemaphoreGive(guard);return result;
 }
 
 void startRecording() {
@@ -79,6 +88,7 @@ void startRecording() {
   else if (recording||(sampleCount&&server.arg("replace")!="1")) error=409;
   else {
     name.toCharArray(label,sizeof(label));sampleCount=0;missedSlots=0;maxIntervalUs=0;finishedMs=0;
+    detector.reset(); // every Start has its own stationary baseline and count
     limitMs=duration*1000;nextUs=micros();reason="recording";recording=true;
   }
   xSemaphoreGive(guard);

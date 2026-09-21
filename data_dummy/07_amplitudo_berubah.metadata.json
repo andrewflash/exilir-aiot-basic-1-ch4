@@ -1,0 +1,51 @@
+{
+  "synthetic": true,
+  "source": "generate_data_dummy.py; seed42; analytical signal, not sensor recording",
+  "scenario": "07_amplitudo_berubah",
+  "description": "Separuh aktivitas amplitudo0,8, separuh2,2 m/s2.",
+  "sample_rate_hz": 50,
+  "baseline_ms": 3000,
+  "activity_duration_ms": 20000,
+  "units": {
+    "timestamp": "ms",
+    "acceleration": "m/s2",
+    "gyro": "rad/s"
+  },
+  "reference_steps": 40,
+  "reference_definition": "One positive sinusoid maximum per modeled step; not measured foot contact. Goyangan has zero steps by scenario definition.",
+  "gyro_note": "All zeros, intentionally unmodeled. Do not use to learn gyro behavior.",
+  "rows": 1150,
+  "timing_ok": true,
+  "seed": 42,
+  "default_detector": {
+    "predicted_steps": 20,
+    "g0_m_s2": 9.81219353389192,
+    "high_m_s2": 1.2,
+    "low_m_s2": 0.3,
+    "min_interval_s": 0.3,
+    "filter_samples": 5,
+    "activity_duration_s": 20.0,
+    "peak_times_s": [
+      13.16,
+      13.66,
+      14.16,
+      14.66,
+      15.16,
+      15.66,
+      16.16,
+      16.66,
+      17.16,
+      17.66,
+      18.16,
+      18.66,
+      19.16,
+      19.66,
+      20.16,
+      20.66,
+      21.16,
+      21.66,
+      22.16,
+      22.66
+    ]
+  }
+}

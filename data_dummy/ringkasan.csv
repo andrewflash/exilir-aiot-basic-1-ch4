@@ -1,0 +1,9 @@
+scenario,reference_steps,predicted_steps_default,samples,description
+01_diam,0,0,1150,Diam dengan noise kecil; referensi nol.
+02_langkah_teratur,40,40,1150,Satu siklus buatan mewakili satu langkah: 2 Hz.
+03_langkah_pelan_lemah,24,0,1150,Amplitudo kecil: threshold awal dapat melewatkan langkah.
+04_langkah_cepat,60,60,1150,Jeda antar siklus sekitar333 ms; coba tau_min=500 ms.
+05_goyangan_bukan_langkah,0,40,1150,"Sinyal sengaja identik dengan kasus02, tetapi label aktivitas bukan langkah."
+06_sensor_miring,40,40,1150,Rotasi sumbu tetap60 derajat dari kasus02; magnitude tetap sama.
+07_amplitudo_berubah,40,20,1150,"Separuh aktivitas amplitudo0,8, separuh2,2 m/s2."
+08_sampel_hilang,40,ditolak,1140,"Kasus02 dengan sampel10,00 sampai10,18 detik dibuang; analyzer harus menolak."

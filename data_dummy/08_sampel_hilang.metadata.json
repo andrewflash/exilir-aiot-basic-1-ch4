@@ -1,0 +1,21 @@
+{
+  "synthetic": true,
+  "source": "generate_data_dummy.py; seed42; analytical signal, not sensor recording",
+  "scenario": "08_sampel_hilang",
+  "description": "Kasus02 dengan sampel10,00 sampai10,18 detik dibuang; analyzer harus menolak.",
+  "sample_rate_hz": 50,
+  "baseline_ms": 3000,
+  "activity_duration_ms": 20000,
+  "units": {
+    "timestamp": "ms",
+    "acceleration": "m/s2",
+    "gyro": "rad/s"
+  },
+  "reference_steps": 40,
+  "reference_definition": "One positive sinusoid maximum per modeled step; not measured foot contact. Goyangan has zero steps by scenario definition.",
+  "gyro_note": "All zeros, intentionally unmodeled. Do not use to learn gyro behavior.",
+  "rows": 1140,
+  "timing_ok": false,
+  "seed": 42,
+  "default_detector_error": "Intervals outside 18–22ms; inspect timing before analysis"
+}

@@ -4,7 +4,7 @@ Firmware Arduino untuk ESP32-C5 + **MPU6050 terverifikasi**. Handphone mengontro
 
 ## Upload sekali dari laptop
 
-1. Pertahankan `Exilir_SoftAP_Logger.ino` dan `web_page.h` dalam satu folder bernama `Exilir_SoftAP_Logger`.
+1. Pertahankan `Exilir_SoftAP_Logger.ino` serta `web_page.h` dan `StepDetector.h` dalam satu folder bernama `Exilir_SoftAP_Logger`.
 2. Buka `.ino` di Arduino IDE. Gunakan board package esp32 by Espressif Systems; pilih model aktual (proyek referensi: DFRobot FireBeetle 2 ESP32-C5).
 3. Install **Adafruit MPU6050**, **Adafruit Unified Sensor**, dan **Adafruit BusIO**. WiFi/WebServer sudah termasuk core ESP32.
 4. SDA GPIO2, SCL GPIO3, alamat I²C 0x68 mengikuti Chapter 3. Sketch memeriksa WHO_AM_I=0x68. Jika kit ternyata MPU6500, gunakan driver yang benar; jangan melewati pemeriksaan identitas.
@@ -85,3 +85,10 @@ HP -- GET /download --> buffer diubah menjadi CSV per potongan
 Referensi proyek: `Chapter_3/Baca_IMU_Library` untuk IMU, `Chapter_2/MQTT_Example` untuk konteks jaringan. Sketch ini menggunakan SoftAP HTTP langsung, bukan MQTT. API resmi: [Espressif Wi-Fi](https://docs.espressif.com/projects/arduino-esp32/en/latest/api/wifi.html), [WebServer](https://github.com/espressif/arduino-esp32/tree/master/libraries/WebServer), [Adafruit MPU6050](https://github.com/adafruit/Adafruit_MPU6050).
 
 Belum di-flash atau diuji pada kit fisik. Lihat `VALIDASI.md` untuk compile dan pengujian browser dengan perangkat simulasi.
+
+
+## Counting threshold langsung
+
+Halaman HP sekarang menampilkan jumlah langkah, threshold, dan status baseline. Start mereset counter; Stop membekukan hasil. Hitungan diproses pada ESP32, tampilan diperbarui sekitar 1 detik. Download metadata menyertakan `steps`, `baseline_m_s2`, `high_m_s2`, `low_m_s2`, `min_interval_ms`, dan `detector_gaps`. CSV tetap kanal sensor agar bisa dianalisis ulang.
+
+Algoritma: magnitude akselerasi, median baseline 3 detik, moving average 5 sampel, puncak lokal >1,2 m/s?, hysteresis <0,3 m/s?, jeda minimum 300 ms. Gyro tidak digunakan untuk counting. Ubah parameter pada `StepDetector.h` dan upload ulang. Lihat [praktik tuning dan evaluasi](../Exilir_Step_Counter/README.md).
